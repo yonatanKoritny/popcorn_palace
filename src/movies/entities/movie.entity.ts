@@ -14,9 +14,9 @@ export class Movie {
   @Column()
   duration: number;
 
-  @Column()
-  rating: string;
+  @Column({ type: 'decimal', precision: 3, scale: 1 })
+  rating: Number;
 
-  @Column({ name: 'release_year' })
+  @Column()
   releaseYear: number;
 }
