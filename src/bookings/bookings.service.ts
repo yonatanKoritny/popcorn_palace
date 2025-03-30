@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateBookingDto } from './dtos/create-booking-dto';
 import { Booking } from './entities/booking.entity';
-import { ShowtimesService } from 'src/showTimes/showtimes.service';
-import { MoviesService } from 'src/movies/movies.service';
+import { ShowtimesService } from '../showtimes/showtimes.service';
+import { MoviesService } from '../movies/movies.service';
 import { ResponseBookingDto } from './dtos/response-booking-dto';
 
 @Injectable()

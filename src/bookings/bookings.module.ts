@@ -4,7 +4,7 @@ import { Module } from '@nestjs/common';
 import { BookingsController } from './bookings.controller';
 import { BookingsService } from './bookings.service';
 import { MoviesModule } from '../movies/movies.module';
-import { ShowtimesModule } from '../showTimes/showtimes.module';
+import { ShowtimesModule } from '../showtimes/showtimes.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Booking]), ShowtimesModule],
