@@ -10,8 +10,8 @@ import {
 
 import { CreateShowtimeDto } from './dtos/create-showtime-dto';
 import { UpdateShowtimeDto } from './dtos/update-showtime-dto';
-import { Showtime } from './entities/showtimes.entity';
 import { ShowtimesService } from './showtimes.service';
+import { Showtime } from './entities/showtimes.entity';
 
 @Controller('showtimes')
 export class ShowtimesController {
@@ -33,12 +33,12 @@ export class ShowtimesController {
   updateShowtimes(
     @Param('showtimeId') showtimeId: number,
     @Body() updateData: UpdateShowtimeDto,
-  ) {
+  ): Promise<Showtime> {
     return this.showtimesService.update(showtimeId, updateData);
   }
 
   @Delete(':showtimeId')
-  deleteShowtimes(@Param('showtimeId') showtimeId: number) {
+  deleteShowtimes(@Param('showtimeId') showtimeId: number): Promise<void> {
     return this.showtimesService.delete(showtimeId);
   }
 }

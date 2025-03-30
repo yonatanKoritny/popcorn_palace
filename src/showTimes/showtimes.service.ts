@@ -3,17 +3,19 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateShowtimeDto } from './dtos/create-showtime-dto';
 import { UpdateShowtimeDto } from './dtos/update-showtime-dto';
 import { Showtime } from './entities/showtimes.entity';
+import { MoviesService } from '../movies/movies.service';
 
 @Injectable()
 export class ShowtimesService {
   constructor(
     @InjectRepository(Showtime)
     private showtimesRepository: Repository<Showtime>,
+    private moviesService: MoviesService,
   ) {}
 
   async findByTheater(theater: string): Promise<Showtime[]> {
@@ -27,6 +29,8 @@ export class ShowtimesService {
   }
 
   async create(showtimeData: CreateShowtimeDto): Promise<Showtime> {
+    await this.moviesService.findById(showtimeData.movieId);
+
     await this.checkShowtimesConflict(showtimeData);
 
     const showtime = this.showtimesRepository.create(showtimeData);
@@ -37,7 +41,7 @@ export class ShowtimesService {
     const existingShowtimesInTheater = await this.findByTheater(
       showtimeData.theater,
     );
-    if (this._checkForConflicts(existingShowtimesInTheater, showtimeData)) {
+    if (this.checkForConflicts(existingShowtimesInTheater, showtimeData)) {
       throw new ConflictException(
         `In theater "${showtimeData.theater}" a showtime already exists in the same time slot.`,
       );
@@ -61,7 +65,7 @@ export class ShowtimesService {
     await this.showtimesRepository.delete(id);
   }
 
-  _checkForConflicts(
+  private checkForConflicts(
     existingShowtimes: Showtime[],
     newShowtime: CreateShowtimeDto,
   ): boolean {

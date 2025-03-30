@@ -20,6 +20,14 @@ export class MoviesService {
     return this.moviesRepository.findOne({ where: { title } });
   }
 
+  async findById(id: number): Promise<Movie> {
+    const movie = await this.moviesRepository.findOne({ where: { id } });
+    if (!movie) {
+      throw new NotFoundException(`Movie with ID "${id}" not found.`);
+    }
+    return movie;
+  }
+
   async findAll(): Promise<Movie[]> {
     return this.moviesRepository.find();
   }
