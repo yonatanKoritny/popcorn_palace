@@ -1,8 +1,16 @@
-import { IsInt, IsNotEmpty, IsNumber, isPositive, IsString, Max, Min } from "class-validator";
+import {
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  isPositive,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
 
 export class CreateMovieDto {
   @IsNotEmpty()
-  @IsString() 
+  @IsString()
   title: string;
 
   @IsNotEmpty()
@@ -11,7 +19,7 @@ export class CreateMovieDto {
 
   @IsNotEmpty()
   @IsInt()
-  duration: number; 
+  duration: number;
 
   @IsNotEmpty()
   @IsNumber({ maxDecimalPlaces: 1 })
@@ -22,5 +30,4 @@ export class CreateMovieDto {
   @IsNotEmpty()
   @IsInt()
   releaseYear: number;
-
-} 
+}

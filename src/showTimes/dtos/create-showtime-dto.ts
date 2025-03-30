@@ -1,14 +1,24 @@
-import { isDate, IsDateString, IsInt, IsNotEmpty, IsNumber, IsPositive, isPositive, IsString, Max, Min } from "class-validator";
+import {
+  isDate,
+  IsDateString,
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsPositive,
+  isPositive,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
 
 export class CreateShowTimeDto {
-
   @IsNotEmpty()
   @IsInt()
   movieId: number;
 
   @IsNotEmpty()
   @IsString()
-  theater: string; 
+  theater: string;
 
   @IsNotEmpty()
   @IsDateString()
@@ -22,5 +32,4 @@ export class CreateShowTimeDto {
   @IsPositive()
   @IsNumber({ maxDecimalPlaces: 2 })
   price: number;
-
-} 
+}

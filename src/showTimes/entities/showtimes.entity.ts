@@ -1,5 +1,5 @@
-import { PrimaryGeneratedColumn, ManyToOne, Column } from "typeorm";
-import { Entity } from "typeorm/decorator/entity/Entity";
+import { PrimaryGeneratedColumn, ManyToOne, Column } from 'typeorm';
+import { Entity } from 'typeorm/decorator/entity/Entity';
 
 @Entity()
 export class ShowTime {
@@ -10,7 +10,7 @@ export class ShowTime {
   movieId: number;
 
   @Column()
-  theater: string; 
+  theater: string;
 
   @Column()
   startTime: Date;
