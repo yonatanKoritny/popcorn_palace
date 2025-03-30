@@ -1,4 +1,4 @@
-import { Showtime } from 'src/showTimes/entities/showtimes.entity';
+import { Showtime } from 'src/showtimes/entities/showtimes.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()
