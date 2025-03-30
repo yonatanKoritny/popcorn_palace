@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Movie } from 'src/movies/entities/movie.entity';
+import { Movie } from './entities/movie.entity';
 import { Repository } from 'typeorm';
 import { UpdateMovieDto } from './dtos/update-movie-dto';
 import { CreateMovieDto } from './dtos/create-movie-dto';
