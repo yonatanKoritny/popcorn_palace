@@ -4,6 +4,8 @@
   import { AppController } from './app.controller';
   import { AppService } from './app.service';
 import { MoviesModule } from './movies/movies.module';
+import { ShowTime } from './showTimes/entities/showTimes.entity';
+import { ShowTimesModule } from './showTimes/showTimes.module';
 
   @Module({
     imports: [
@@ -14,10 +16,11 @@ import { MoviesModule } from './movies/movies.module';
         username: 'popcorn-palace',
         password: 'popcorn-palace',
         database: 'popcorn-palace',
-        entities: [Movie],
+        entities: [Movie, ShowTime],
         synchronize: true,
       }),
-    MoviesModule],
+    MoviesModule,
+    ShowTimesModule,],
     controllers: [AppController],
     providers: [AppService],
   })

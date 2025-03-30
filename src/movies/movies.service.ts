@@ -38,6 +38,6 @@ export class MoviesService {
     return this.findById(movieToUpdate.id);
   }
   async delete(title: string): Promise<void> {
-    await this.moviesRepository.delete(title);
+    await this.moviesRepository.delete({ title });
   }
 }
