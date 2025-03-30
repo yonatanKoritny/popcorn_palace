@@ -11,7 +11,7 @@ import {
   Min,
 } from 'class-validator';
 
-export class CreateShowTimeDto {
+export class CreateShowtimeDto {
   @IsNotEmpty()
   @IsInt()
   movieId: number;

@@ -8,37 +8,37 @@ import {
   Post,
 } from '@nestjs/common';
 
-import { CreateShowTimeDto } from './dtos/create-showtime-dto';
-import { UpdateShowTimeDto } from './dtos/update-showtime-dto';
-import { ShowTime } from './entities/showtimes.entity';
-import { ShowTimesService } from './showtimes.service';
+import { CreateShowtimeDto } from './dtos/create-showtime-dto';
+import { UpdateShowtimeDto } from './dtos/update-showtime-dto';
+import { Showtime } from './entities/showtimes.entity';
+import { ShowtimesService } from './showtimes.service';
 
 @Controller('showtimes')
-export class ShowTimesController {
-  constructor(private readonly showtimesService: ShowTimesService) {}
+export class ShowtimesController {
+  constructor(private readonly showtimesService: ShowtimesService) {}
 
   @Get(':showtimeId')
-  async findById(@Param('showtimeId') showtimeId: number): Promise<ShowTime> {
+  async findById(@Param('showtimeId') showtimeId: number): Promise<Showtime> {
     return this.showtimesService.findById(showtimeId);
   }
 
   @Post()
-  async createShowTime(
-    @Body() showtimes: CreateShowTimeDto,
-  ): Promise<ShowTime> {
+  async createShowtime(
+    @Body() showtimes: CreateShowtimeDto,
+  ): Promise<Showtime> {
     return this.showtimesService.create(showtimes);
   }
 
   @Post('update/:showtimeId')
-  updateShowTimes(
+  updateShowtimes(
     @Param('showtimeId') showtimeId: number,
-    @Body() updateData: UpdateShowTimeDto,
+    @Body() updateData: UpdateShowtimeDto,
   ) {
     return this.showtimesService.update(showtimeId, updateData);
   }
 
   @Delete(':showtimeId')
-  deleteShowTimes(@Param('showtimeId') showtimeId: number) {
+  deleteShowtimes(@Param('showtimeId') showtimeId: number) {
     return this.showtimesService.delete(showtimeId);
   }
 }

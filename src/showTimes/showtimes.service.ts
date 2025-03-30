@@ -1,68 +1,75 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateShowTimeDto } from './dtos/create-showtime-dto';
-import { UpdateShowTimeDto } from './dtos/update-showtime-dto';
-import { ShowTime } from './entities/showtimes.entity';
+import { CreateShowtimeDto } from './dtos/create-showtime-dto';
+import { UpdateShowtimeDto } from './dtos/update-showtime-dto';
+import { Showtime } from './entities/showtimes.entity';
 
 @Injectable()
-export class ShowTimesService {
+export class ShowtimesService {
   constructor(
-    @InjectRepository(ShowTime)
-    private showtimesRepository: Repository<ShowTime>,
+    @InjectRepository(Showtime)
+    private showtimesRepository: Repository<Showtime>,
   ) {}
 
-  async findAll(): Promise<ShowTime[]> {
-    return this.showtimesRepository.find();
-  }
-
-  async findAllShowTimesInTheater(theater: string): Promise<ShowTime[]> {
+  async findByTheater(theater: string): Promise<Showtime[]> {
     return this.showtimesRepository.find({ where: { theater } });
   }
 
-  async findById(id: number): Promise<ShowTime> {
-    return this.showtimesRepository.findOne({ where: { id } });
+  async findById(id: number): Promise<Showtime> {
+    const showtime = await this.showtimesRepository.findOne({ where: { id } });
+    if (!showtime) throw new NotFoundException(`Showtime "${id}" not found.`);
+    return showtime;
   }
 
-  async create(showtimeData: CreateShowTimeDto): Promise<ShowTime> {
-    await this.checkShowTimesConflict(showtimeData);
+  async create(showtimeData: CreateShowtimeDto): Promise<Showtime> {
+    await this.checkShowtimesConflict(showtimeData);
 
     const showtime = this.showtimesRepository.create(showtimeData);
     return this.showtimesRepository.save(showtime);
   }
 
-  private async checkShowTimesConflict(showtimeData: CreateShowTimeDto) {
-    const existingShowTimesInTheater = await this.findAllShowTimesInTheater(
+  private async checkShowtimesConflict(showtimeData: CreateShowtimeDto) {
+    const existingShowtimesInTheater = await this.findByTheater(
       showtimeData.theater,
     );
-    if (this._checkForConflicts(existingShowTimesInTheater, showtimeData)) {
-      throw new Error('ShowTime conflict detected.');
+    if (this._checkForConflicts(existingShowtimesInTheater, showtimeData)) {
+      throw new ConflictException(
+        `In theater "${showtimeData.theater}" a showtime already exists in the same time slot.`,
+      );
     }
   }
 
   async update(
     showtimeId: number,
-    showtime: UpdateShowTimeDto,
-  ): Promise<ShowTime> {
+    showtime: UpdateShowtimeDto,
+  ): Promise<Showtime> {
     const showtimeToUpdate = await this.findById(showtimeId);
     if (!showtimeToUpdate)
-      throw new NotFoundException(`ShowTime "${showtimeId}" not found.`);
+      throw new NotFoundException(`Showtime "${showtimeId}" not found.`);
     await this.showtimesRepository.update(showtimeToUpdate.id, showtime);
     return this.findById(showtimeToUpdate.id);
   }
+
   async delete(id: number): Promise<void> {
+    const showtime = await this.findById(id);
+    if (!showtime) throw new NotFoundException(`Showtime "${id}" not found.`);
     await this.showtimesRepository.delete(id);
   }
 
   _checkForConflicts(
-    existingShowTimes: ShowTime[],
-    newShowTime: CreateShowTimeDto,
+    existingShowtimes: Showtime[],
+    newShowtime: CreateShowtimeDto,
   ): boolean {
-    return existingShowTimes.some((existing) => {
+    return existingShowtimes.some((existing) => {
       const existingStart = new Date(existing.startTime).getTime();
       const existingEnd = new Date(existing.endTime).getTime();
-      const newStart = new Date(newShowTime.startTime).getTime();
-      const newEnd = new Date(newShowTime.endTime).getTime();
+      const newStart = new Date(newShowtime.startTime).getTime();
+      const newEnd = new Date(newShowtime.endTime).getTime();
 
       return (
         (newStart >= existingStart && newStart < existingEnd) ||

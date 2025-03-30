@@ -2,7 +2,7 @@ import { PrimaryGeneratedColumn, ManyToOne, Column } from 'typeorm';
 import { Entity } from 'typeorm/decorator/entity/Entity';
 
 @Entity()
-export class ShowTime {
+export class Showtime {
   @PrimaryGeneratedColumn()
   id: number;
 

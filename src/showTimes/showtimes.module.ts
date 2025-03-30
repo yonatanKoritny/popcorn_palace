@@ -1,12 +1,12 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ShowTime } from './entities/showtimes.entity';
+import { Showtime } from './entities/showtimes.entity';
 import { Module } from '@nestjs/common';
-import { ShowTimesController } from './showtimes.controller';
-import { ShowTimesService } from './showtimes.service';
+import { ShowtimesController } from './showtimes.controller';
+import { ShowtimesService } from './showtimes.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ShowTime])],
-  controllers: [ShowTimesController],
-  providers: [ShowTimesService],
+  imports: [TypeOrmModule.forFeature([Showtime])],
+  controllers: [ShowtimesController],
+  providers: [ShowtimesService],
 })
-export class ShowTimesModule {}
+export class ShowtimesModule {}
