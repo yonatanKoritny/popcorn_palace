@@ -3,9 +3,10 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
-import { ConflictException, NotFoundException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 import { CreateMovieDto } from './dtos/create-movie-dto';
 import { UpdateMovieDto } from './dtos/update-movie-dto';
+import { ValidationError } from 'class-validator';
 
 describe('MoviesService', () => {
   let service: MoviesService;
@@ -97,14 +98,6 @@ describe('MoviesService', () => {
       expect(result).toEqual(mockMovie);
       expect(mockRepository.create).toHaveBeenCalledWith(createMovieDto);
       expect(mockRepository.save).toHaveBeenCalled();
-    });
-
-    it('should throw ConflictException when movie already exists', async () => {
-      mockRepository.findOne.mockResolvedValue(mockMovie);
-
-      await expect(service.create(createMovieDto)).rejects.toThrow(
-        ConflictException,
-      );
     });
   });
 

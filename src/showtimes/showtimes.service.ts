@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateShowtimeDto } from './dtos/create-showtime-dto';
 import { UpdateShowtimeDto } from './dtos/update-showtime-dto';
@@ -41,7 +41,7 @@ export class ShowtimesService {
     const existingShowtimesInTheater = await this.findByTheater(
       showtimeData.theater,
     );
-    if (this.checkForConflicts(existingShowtimesInTheater, showtimeData)) {
+    if (this.checkForDateConflicts(existingShowtimesInTheater, showtimeData)) {
       throw new ConflictException(
         `In theater "${showtimeData.theater}" a showtime already exists in the same time slot.`,
       );
@@ -65,7 +65,7 @@ export class ShowtimesService {
     await this.showtimesRepository.delete(id);
   }
 
-  private checkForConflicts(
+  private checkForDateConflicts(
     existingShowtimes: Showtime[],
     newShowtime: CreateShowtimeDto,
   ): boolean {

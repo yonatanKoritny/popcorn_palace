@@ -85,20 +85,32 @@ describe('MoviesController', () => {
       const updatedMovie = { ...mockMovie, ...updateMovieDto };
       mockMoviesService.update.mockResolvedValue(updatedMovie);
 
-      const result = await controller.updateMovie('Test%20Movie', updateMovieDto);
+      const result = await controller.updateMovie(
+        'Test%20Movie',
+        updateMovieDto,
+      );
 
       expect(result).toEqual(updatedMovie);
-      expect(mockMoviesService.update).toHaveBeenCalledWith('Test Movie', updateMovieDto);
+      expect(mockMoviesService.update).toHaveBeenCalledWith(
+        'Test Movie',
+        updateMovieDto,
+      );
     });
 
     it('should handle URL-encoded movie titles', async () => {
       const updatedMovie = { ...mockMovie, ...updateMovieDto };
       mockMoviesService.update.mockResolvedValue(updatedMovie);
 
-      const result = await controller.updateMovie('The%20Matrix%20%282021%29', updateMovieDto);
+      const result = await controller.updateMovie(
+        'The%20Matrix%20%282021%29',
+        updateMovieDto,
+      );
 
       expect(result).toEqual(updatedMovie);
-      expect(mockMoviesService.update).toHaveBeenCalledWith('The Matrix (2021)', updateMovieDto);
+      expect(mockMoviesService.update).toHaveBeenCalledWith(
+        'The Matrix (2021)',
+        updateMovieDto,
+      );
     });
   });
 
@@ -116,7 +128,9 @@ describe('MoviesController', () => {
 
       await controller.deleteMovie('The%20Matrix%20%282021%29');
 
-      expect(mockMoviesService.delete).toHaveBeenCalledWith('The Matrix (2021)');
+      expect(mockMoviesService.delete).toHaveBeenCalledWith(
+        'The Matrix (2021)',
+      );
     });
   });
 });

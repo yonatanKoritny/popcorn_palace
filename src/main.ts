@@ -14,17 +14,12 @@ async function bootstrap() {
         enableImplicitConversion: true,
       },
       exceptionFactory: (validationErrors: ValidationError[]) => {
-        const messages = validationErrors.map((error) => {
-          const constraints = Object.values(error.constraints || {});
-          return {
-            field: error.property,
-            errors: constraints,
-          };
-        });
+        const firstErrorMessage: string =
+          Object.values(validationErrors[0].constraints || {})[0] ||
+          'Validation failed';
         return {
           statusCode: 400,
-          message: 'Validation failed',
-          errors: messages,
+          message: firstErrorMessage,
         };
       },
     }),
