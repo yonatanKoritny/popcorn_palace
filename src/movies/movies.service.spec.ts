@@ -1,16 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
 import { NotFoundException } from '@nestjs/common';
 import { CreateMovieDto } from './dtos/create-movie-dto';
 import { UpdateMovieDto } from './dtos/update-movie-dto';
-import { ValidationError } from 'class-validator';
 
 describe('MoviesService', () => {
   let service: MoviesService;
-  let repository: Repository<Movie>;
 
   const mockRepository = {
     find: jest.fn(),
@@ -42,7 +39,6 @@ describe('MoviesService', () => {
     }).compile();
 
     service = module.get<MoviesService>(MoviesService);
-    repository = module.get<Repository<Movie>>(getRepositoryToken(Movie));
     mockRepository.findOne.mockReset();
   });
 

@@ -64,17 +64,6 @@ npm install
 
 ### Database initialization:
 
-Configure the following environment variables for database connection:
-
-- `DB_HOST`: Database host
-- `DB_PORT`: Database port (typically 5432 for PostgreSQL)
-- `DB_USERNAME`: Database username
-- `DB_PASSWORD`: Database password
-- `DB_NAME`: Database name
-- `DB_SYNCHRONIZE`: Set to 'false' in production to prevent automatic schema changes
-
-if using docker, run:
-
 ```bash
 # Start PostgreSQL container
 docker-compose up -d
